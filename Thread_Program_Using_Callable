@@ -1,0 +1,66 @@
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.ArrayList;
+import java.util.List;
+
+class Operation implements Callable<Double> {
+    String name;
+    double num1, num2;
+
+    public Operation(String name, double num1, double num2) {
+        this.name = name;
+        this.num1 = num1;
+        this.num2 = num2;
+    }
+
+    public Double call() throws Exception {
+        switch (name) {
+            case "add":
+                return num1 + num2;
+            case "subtract":
+                return num1 - num2;
+            case "multiply":
+                return num1 * num2;
+            case "divide":
+                if (num2 == 0) {
+                    throw new ArithmeticException("Division by zero");
+                }
+                return num1 / num2;
+            default:
+                throw new IllegalArgumentException("Invalid operation: " + name);
+        }
+    }
+}
+
+public class Source {
+    public static void main(String[] args) {
+        
+
+        double num1 = Double.parseDouble(args[0]);
+        double num2 = Double.parseDouble(args[1]);
+
+        String[] operations = {"add", "subtract", "multiply", "divide"};
+        ExecutorService executorService = Executors.newFixedThreadPool(operations.length);
+        List<Future<Double>> results = new ArrayList<>();
+
+        for (String operation : operations) {
+            Callable<Double> callable = new Operation(operation, num1, num2);
+            results.add(executorService.submit(callable));
+        }
+
+        executorService.shutdown();
+
+        for (int i = 0; i < operations.length; i++) {
+            String operation = operations[i];
+
+            try {
+                double result = results.get(i).get();
+                System.out.println(operation + " result: " + result);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
