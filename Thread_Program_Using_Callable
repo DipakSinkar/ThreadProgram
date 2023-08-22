@@ -36,11 +36,12 @@ class Operation implements Callable<Double> {
 
 public class Source {
     public static void main(String[] args) {
-        
+        double num1=0;
+        double num2=0;
         try
         {
-        double num1 = Double.parseDouble(args[0]);
-        double num2 = Double.parseDouble(args[1]);
+        num1 = Double.parseDouble(args[0]);
+        num2 = Double.parseDouble(args[1]);
         }
         catch(Exception e)
         {
