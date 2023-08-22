@@ -37,9 +37,15 @@ class Operation implements Callable<Double> {
 public class Source {
     public static void main(String[] args) {
         
-
+        try
+        {
         double num1 = Double.parseDouble(args[0]);
         double num2 = Double.parseDouble(args[1]);
+        }
+        catch(Exception e)
+        {
+            System.out.println("Please enter valid number..");
+        }
 
         String[] operations = {"add", "subtract", "multiply", "divide"};
         ExecutorService executorService = Executors.newFixedThreadPool(operations.length);
