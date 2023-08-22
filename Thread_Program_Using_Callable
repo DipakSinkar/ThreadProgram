@@ -46,6 +46,7 @@ public class Source {
         catch(Exception e)
         {
             System.out.println("Please enter valid number..");
+            System.exit(1);
         }
 
         String[] operations = {"add", "subtract", "multiply", "divide"};
